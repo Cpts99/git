@@ -28,6 +28,14 @@
 #include "quote.h"
 #include "strbuf.h"
 
+struct rev_list_info {
+	struct rev_info *revs;
+	int flags;
+	int show_timestamp;
+	int hdr_termination;
+	const char *header_prefix;
+};
+
 static const char rev_list_usage[] =
 "git rev-list [<options>] <commit>... [--] [<path>...]\n"
 "\n"
@@ -652,7 +660,7 @@ int cmd_rev_list(int argc,
 	 */
 	/*
 	 * NEEDSWORK: These loops that attempt to find presence of
-	 * options without understanding that the options they are
+	 * options without understanding the options they are
 	 * skipping are broken (e.g., it would not know "--grep
 	 * --exclude-promisor-objects" is not triggering
 	 * "--exclude-promisor-objects" option).  We really need
